@@ -1,0 +1,3 @@
+doctrine_migrations:
+    services:
+        'Doctrine\Migrations\Version\Comparator': app.core.infrastructure.setup.comparator

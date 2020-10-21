@@ -1,0 +1,27 @@
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+services:
+  App\Core\UI\Http\Rest\Controller\:
+    resource: '../../UI/Http/Rest/Controller/*'
+    tags: [ 'controller.service_arguments' ]
+
+#  app_user_metadata_enricher:
+#    class: App\Core\Infrastructure\Share\Event\Metadata\UserMetadata
+#    tags:
+#      - { name: 'broadway.metadata_enricher' }
+
+  'App\Core\Application\Decorator\OasServerDecorator':
+    decorates: 'api_platform.swagger.normalizer.api_gateway'
+    arguments: [ '@App\Core\Application\Decorator\OasServerDecorator.inner', '@request_stack' ]
+    autoconfigure: false
+
+  'App\Core\Application\Decorator\RequiredPropertyDecorator':
+    decorates: 'api_platform.swagger.normalizer.api_gateway'
+    arguments: [ '@App\Core\Application\Decorator\OasServerDecorator.inner' ]
+    autoconfigure: false
+
+  app.core.infrastructure.setup.comparator:
+    class: App\Core\Infrastructure\Setup\ProjectVersionComparator
+    autoconfigure: true
+    arguments:
+      ['@App\Core\Infrastructure\Config\ConfigParser', '%kernel.project_dir%']
