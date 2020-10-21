@@ -1,3 +1,6 @@
 doctrine_migrations:
+    storage:
+        table_storage:
+            table_name: 'core_migrations'
     services:
         'Doctrine\Migrations\Version\Comparator': app.core.infrastructure.setup.comparator
