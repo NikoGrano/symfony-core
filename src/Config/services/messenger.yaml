@@ -4,7 +4,7 @@ framework:
     # failure_transport: failed
 
     transports:
-      async: "%env(default:sync\:\/\/:MESSENGER_TRANSPORT_DSN)%"
+      async: "%env(default::MESSENGER_TRANSPORT_DSN)%"
       sync: 'sync://'
     default_bus: messenger.bus.command
     buses:
