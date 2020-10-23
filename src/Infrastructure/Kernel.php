@@ -12,7 +12,12 @@ declare(strict_types=1);
 
 namespace App\Core\Infrastructure;
 
+use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
+use Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle;
+use Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle;
+use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
+use Symfony\Bundle\SecurityBundle\SecurityBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;
@@ -32,6 +37,8 @@ final class Kernel extends BaseKernel
     public function registerBundles()
     {
         $contents = require $this->getProjectDir().'/config/bundles.php';
+        $contents[FrameworkBundle::class] = ['all' => true];
+        $contents[SecurityBundle::class] = ['all' => true];
         foreach ($contents as $class => $envs) {
             if (isset($envs['all']) || isset($envs[$this->environment])) {
                 yield new $class();
