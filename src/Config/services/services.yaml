@@ -9,9 +9,13 @@ services:
       $queryBus: '@messenger.bus.query'
       $commandBus: '@messenger.bus.command'
 
+  App\Core\:
+    resource: '../../**/*'
+    exclude: '../../**/{Domain/Entity,Setup/Upgrade,Setup/Data,Tests,Kernel.php}'
+
   App\:
-    resource: '../src/**/*'
-    exclude: '../src/**/{Domain/Entity,Setup/Upgrade,Setup/Data,Tests,Kernel.php}'
+    resource: '../../../../../../src/**/*'
+    exclude: '../../../../../../src/**/{Domain/Entity,Setup/Upgrade,Setup/Data,Tests}'
 
   App\Core\UI\Http\Rest\Controller\:
     resource: '../../UI/Http/Rest/Controller/*'
