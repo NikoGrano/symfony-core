@@ -1,14 +1,26 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+    bind:
+      $queryBus: '@messenger.bus.query'
+      $commandBus: '@messenger.bus.command'
+
+  App\:
+    resource: '../src/**/*'
+    exclude: '../src/**/{Domain/Entity,Setup/Upgrade,Setup/Data,Tests,Kernel.php}'
+
   App\Core\UI\Http\Rest\Controller\:
     resource: '../../UI/Http/Rest/Controller/*'
     tags: [ 'controller.service_arguments' ]
 
-#  app_user_metadata_enricher:
-#    class: App\Core\Infrastructure\Share\Event\Metadata\UserMetadata
-#    tags:
-#      - { name: 'broadway.metadata_enricher' }
+  #  app_user_metadata_enricher:
+  #    class: App\Core\Infrastructure\Share\Event\Metadata\UserMetadata
+  #    tags:
+  #      - { name: 'broadway.metadata_enricher' }
 
   'App\Core\Application\Decorator\OasServerDecorator':
     decorates: 'api_platform.swagger.normalizer.api_gateway'
@@ -24,4 +36,4 @@ services:
     class: App\Core\Infrastructure\Setup\ProjectVersionComparator
     autoconfigure: true
     arguments:
-      ['@App\Core\Infrastructure\Config\ConfigParser', '%kernel.project_dir%']
+      [ '@App\Core\Infrastructure\Config\ConfigParser', '%kernel.project_dir%' ]
