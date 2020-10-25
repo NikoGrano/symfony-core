@@ -46,6 +46,7 @@ final class ProjectVersionComparator implements Comparator
             $modules[$module] = $this->config->get("depends.$module", []);
             unset($modules[$key]);
         }
+        $modules['core'] = [];
 
         foreach ($modules as $module => $dependencies) {
             if ('core' !== $module) {

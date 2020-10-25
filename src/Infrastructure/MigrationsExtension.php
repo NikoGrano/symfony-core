@@ -16,7 +16,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
-class MigrationsExtension extends Extension implements PrependExtensionInterface
+final class MigrationsExtension extends Extension implements PrependExtensionInterface
 {
     private string $projectDir;
 
