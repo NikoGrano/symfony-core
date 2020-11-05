@@ -44,7 +44,7 @@ final class RequiredPropertyDecorator implements NormalizerInterface
                 foreach ($schema['properties'] as $propertyName => $property) {
                     if (isset($property['ignore_required'])) {
                         unset($property['ignore_required']);
-                    } elseif (':jsonld' === substr($schemaName, -7)) {
+                    } elseif ($this->isJsonld($schemaName)) {
                         $schema['required'][] = $propertyName;
                     }
                 }
@@ -52,6 +52,11 @@ final class RequiredPropertyDecorator implements NormalizerInterface
         }
 
         return $docs;
+    }
+
+    private function isJsonld(string $schemaName): bool
+    {
+        return ':jsonld' === substr($schemaName, -7) || false !== strpos($schemaName, ':jsonld-');
     }
 
     public function supportsNormalization($data, $format = null): bool
